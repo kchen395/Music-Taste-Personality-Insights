@@ -39,6 +39,7 @@
     "passport": "^0.4.0",
     "passport-spotify": "^1.0.1",
     "react": "^15.4.2",
+    "react-bootstrap": "^0.32.4",
     "react-chartjs-2": "^2.7.4",
     "react-dom": "^15.4.2",
     "swig": "^1.4.2",

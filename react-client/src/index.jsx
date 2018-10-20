@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import Personality from './components/personality.jsx';
 import {Radar} from 'react-chartjs-2';
+import { Button , ListGroup, ListGroupItem} from 'react-bootstrap';
+
 
 class App extends React.Component {
   constructor(props) {
@@ -56,9 +58,9 @@ class App extends React.Component {
 				<div>
 					<h1>Music Taste Personality Insights</h1>
 					<p>This app inputs the lyrics of your 20 current top songs from Spotify into IBM Watson's Personality Insights to determine your personality from your music taste</p>
-					<a href="/auth/spotify/">Login</a><br/><br/>
+					<a href="/auth/spotify/">Login to your Spotify Account</a><br/><br/>
 					<form onSubmit={this.handleSubmit}>
-						<button type="submit">Retrieve Personality Profile</button>
+						<Button type="submit">Retrieve Personality Profile</Button>
 					</form><br/>
 					<img src="http://www.da6nci.com/wp-content/uploads/2015/09/IBM_Watson_PersonalityInsights.svg" style={imgStyle} alt="logo"/>
 				</div>
@@ -166,48 +168,54 @@ class App extends React.Component {
 			</form><br/>
 			<h1>Top Songs</h1>
 			<ol>
+			<ListGroup>
 			{this.state.songs.map((song, i) => {
 				return(
-					<li key={song.uri}><a href={song.external_urls.spotify} style={style}>{song.album.artists[0].name} - {song.name}</a><a href={this.state.urls.filter(url => {
+					<ListGroupItem key={song.uri}><a href={song.external_urls.spotify} style={style}>{song.album.artists[0].name} - {song.name}</a><a href={this.state.urls.filter(url => {
 						return url.toLowerCase().indexOf((song.album.artists[0].name.replace(/\s+/g, '-').toLowerCase())) > -1 
 						|| url.toLowerCase().indexOf((song.name.replace(/\s+/g, '-').toLowerCase())) > -1;
-					})[0]} style={style}> Lyrics</a></li>
+					})[0]} style={style}> Lyrics</a></ListGroupItem>
 				)
 			})}
+			</ListGroup>
 			</ol>
 			<h1>Personality Insights</h1> 
 
 			<h2>Preferences</h2>
+			<ListGroup>
 			{this.state.profile.consumption_preferences.map(prefCategory => {
 				return prefCategory.consumption_preferences.map(pref => {
 					if (pref.score === 1) {
 						return (
-							<li key={pref.consumption_preference_id}>{pref.name}</li>
+							<ListGroupItem key={pref.consumption_preference_id}>{pref.name}</ListGroupItem>
 						)
 					}
 				})
 			})}
+			</ListGroup>
 
 			<h2>Needs</h2>
+			<ListGroup>
 			{this.state.profile.needs.map(need => {
 				if (need.percentile > 0.8) {
 					return (
-						<li style={{fontWeight: 'bold'}} key={need.trait_id}>{need.name} {need.percentile.toFixed(2)}</li>
+						<ListGroupItem style={{fontWeight: 'bold'}} key={need.trait_id}>{need.name} {need.percentile.toFixed(2)}</ListGroupItem>
 					)
 				} else if (need.percentile > 0.66) {
 					return (
-						<li style={{fontStyle: 'italic'}} key={need.trait_id}>{need.name} {need.percentile.toFixed(2)}</li>
+						<ListGroupItem style={{fontStyle: 'italic'}} key={need.trait_id}>{need.name} {need.percentile.toFixed(2)}</ListGroupItem>
 					)
 				} else if (need.percentile < 0.33) {
 					return (
-						<li key={need.trait_id} style={{color: 'red'}}>{need.name} {need.percentile.toFixed(2)}</li>
+						<ListGroupItem key={need.trait_id} style={{color: 'red'}}>{need.name} {need.percentile.toFixed(2)}</ListGroupItem>
 					)
 				} else {
 					return (
-						<li key={need.trait_id}>{need.name} {need.percentile.toFixed(2)}</li>
+						<ListGroupItem key={need.trait_id}>{need.name} {need.percentile.toFixed(2)}</ListGroupItem>
 					)
 				}
 			})}
+			</ListGroup>
 			<Radar data={data} options={options} style={chartStyle}/>
 
 

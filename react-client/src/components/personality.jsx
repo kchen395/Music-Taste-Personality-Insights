@@ -1,28 +1,29 @@
 import React from 'react'; 
+import { ListGroup, ListGroupItem} from 'react-bootstrap';
 
 
 const Personality = (props) => (
-	<div>
+	<ListGroup>
 		{props.facets.map(facet => {
 			if (facet.percentile > 0.8) {
 				return (
-					<li style={{fontWeight: 'bold'}} key={facet.trait_id}>{facet.name} {facet.percentile.toFixed(2)}</li>
+					<ListGroupItem style={{fontWeight: 'bold'}} key={facet.trait_id}>{facet.name} {facet.percentile.toFixed(2)}</ListGroupItem>
 				)
 			} else if (facet.percentile > 0.66) {
 				return (
-					<li style={{fontStyle: 'italic'}} key={facet.trait_id}>{facet.name} {facet.percentile.toFixed(2)}</li>
+					<ListGroupItem style={{fontStyle: 'itaListGroupItemc'}} key={facet.trait_id}>{facet.name} {facet.percentile.toFixed(2)}</ListGroupItem>
 				)
 			} else if (facet.percentile < 0.33) {
 				return (
-					<li key={facet.trait_id} style={{color: 'red'}}>{facet.name} {facet.percentile.toFixed(2)}</li>
+					<ListGroupItem key={facet.trait_id} style={{color: 'red'}}>{facet.name} {facet.percentile.toFixed(2)}</ListGroupItem>
 				)
 			} else {
 				return (
-					<li key={facet.trait_id}>{facet.name} {facet.percentile.toFixed(2)}</li>
+					<ListGroupItem key={facet.trait_id}>{facet.name} {facet.percentile.toFixed(2)}</ListGroupItem>
 				)
 			}
 		})}
-	</div>
+	</ListGroup>
 )
 
 export default Personality;

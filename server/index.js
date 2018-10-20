@@ -7,10 +7,10 @@ const Profile = require('../database-mongo/index').Profile;
 const db = require('../database-mongo/index').db;
 
 
-var geniusToken = process.env.GENIUS_TOKEN || "cVqBD3sGBEY5IHBsz9l_lISEKvcXlPrlTwNLuUY5k32zGFkDA8_kDyqLIYl956k0";
-var spotifyClient = process.env.SPOTIFY_CLIENT || "7463d81269844b5394f2675a879ac435";
-var spotifySecret = process.env.SPOTIFY_SECRET || "5f3d3282452c47f09981af689208f702";
-var ibmKey = process.env.IBM_KEY || "hMF49sTOHQeFEw0iZgDjRt-7pkIRmikQHWXb1kaK2Ed1";
+var geniusToken = process.env.GENIUS_TOKEN;
+var spotifyClient = process.env.SPOTIFY_CLIENT;
+var spotifySecret = process.env.SPOTIFY_SECRET;
+var ibmKey = process.env.IBM_KEY;
 
 var Genius = require('genius-api');
 var cheerio = require('cheerio');
