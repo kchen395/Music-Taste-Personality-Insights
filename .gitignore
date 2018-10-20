@@ -36,3 +36,4 @@ bower_components/
 .flooignore
 
 node_modules
+npm-debug.log
