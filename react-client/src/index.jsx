@@ -1,69 +1,111 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
+import Personality from './components/personality.jsx';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = { 
-			title: '',
-			artist: '',
-			lyrics: '',
-			currTitle: '',
-			emotion: ''
+			songs: [],
+			profile: {}
 		}
 		this.handleSubmit = this.handleSubmit.bind(this);
-		this.onChange = this.onChange.bind(this);
-		this.handleLogin = this.handleLogin.bind(this);
   }
 
   componentDidMount() {
 	}
 	
-	onChange(e) {
-		this.setState({ [e.target.name]: e.target.value });
-	}
 
 	handleSubmit(e) {
 		e.preventDefault();
 		const {title, artist} = this.state;
-		axios.post('/lyrics', {title, artist})
-			.then((res) => this.setState({
-				title: '',
-				artist: '',
-				lyrics: res.data.lyrics,
-				currTitle: res.data.title,
-				emotion: 'Sentiment: ' + res.data.emotion
-			}));
-	}
-
-	handleLogin() {
-		axios.get('/login')
+		axios.get('/lyrics', {title, artist})
+			.then((res) => {
+				console.log(res)
+				this.setState({
+					songs: res.data[1],
+					profile: res.data[0]
+				})
+			});
 	}
 
   render () {
-		const {title, artist} = this.state;
-		
+		const style = {
+			textDecoration: 'none'
+		}
+
+		const empty = this.state.profile.hasOwnProperty('word_count');
+
+		if (!empty) {
+			return (
+				<div>
+					<h1>Music Taste Personality Test</h1>
+					<p>This app inputs the lyrics of your 20 current top songs from Spotify into IBM Watson's Personality Insights to determine your personality from music tastes</p>
+					<a href="/auth/spotify/">Login</a><br/><br/>
+					<form onSubmit={this.handleSubmit}>
+						<button type="submit">Retrieve Personality Profile</button>
+					</form><br/>
+				</div>
+			)
+		}
+
 		return (<div>
-      <h1>Lyrics App</h1>
-			<button onClick={this.handleLogin}>Login</button><br/><br/>
+      <h1>Music Taste Personality Test</h1>
+			<p>This app inputs the lyrics of your 20 current top songs from Spotify into IBM Watson's Personality Insights to determine your personality from music tastes</p>
+			<a href="/auth/spotify/">Login</a><br/><br/>
 			<form onSubmit={this.handleSubmit}>
-				<label>Title</label><br/>
-        <input type="text" name="title" value={title} onChange={this.onChange}/>
-				<br/>
-        <label>Artist</label><br/>
-        <input type="text" name="artist" value={artist} onChange={this.onChange}/>
-				<br/>
-				<button type="submit">Submit</button>
+				<button type="submit">Retrieve Personality Profile</button>
 			</form><br/>
-			<h2>Lyrics</h2>
-			<h3>{this.state.currTitle}</h3>
-			<h4>{this.state.emotion}</h4>
-			{this.state.lyrics.split("\n").map((i,key) => {
-        return <div key={key}>{i}</div>;
-      })}
+			<h1>Top Songs</h1><br/>
+			<ol>
+			{this.state.songs.map((song, i) => {
+				return(
+					<li key={song.uri}><a href={song.external_urls.spotify} style={style}>{song.album.artists[0].name} - {song.name}</a></li>
+				)
+			})}
+			</ol>
+			<h1>Personality Insights</h1>
+
+			<h2>Preferences</h2>
+			{this.state.profile.consumption_preferences.map(prefCategory => {
+				return prefCategory.consumption_preferences.map(pref => {
+					if (pref.score === 1) {
+						return (
+							<li key={pref.consumption_preference_id}>{pref.name}</li>
+						)
+					}
+				})
+			})}
+
+			<h2>Needs</h2>
+			{this.state.profile.needs.map(need => {
+				if (need.percentile > 0.85) {
+					return (
+						<li key={need.trait_id}>{need.name}</li>
+					)
+				}
+			})}
+
+			<h2>Big Five Personality</h2>
+			<h3>Openness Facets</h3>
+			<Personality facets={this.state.profile.personality[0].children}/>
+			<h3>Conscientiousness Facets</h3>
+			<Personality facets={this.state.profile.personality[1].children}/>
+			<h3>Extraversion Facets</h3>
+			<Personality facets={this.state.profile.personality[2].children}/>
+			<h3>Agreeableness Facets</h3>
+			<Personality facets={this.state.profile.personality[3].children}/>
+			<h3>Neuroticism Facets</h3>
+			<Personality facets={this.state.profile.personality[4].children}/>
+
+			<h2>Values</h2>
+			<Personality facets={this.state.profile.values}/>
     </div>)
   }
 }
+
+
+
 
 ReactDOM.render(<App />, document.getElementById('app'));
