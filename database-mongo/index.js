@@ -1,23 +1,20 @@
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://kai:kai123@ds137283.mlab.com:37283/lyrics-data');
+var mongoURL = require('../config.js').MONGO;
 
+mongoose.connect(mongoURL, { useMongoClient: true });
 var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
-db.on('error', function() {
-  console.log('mongoose connection error');
+var profileSchema = mongoose.Schema({
+	id: String,
+	personality: String,
+	songs: String,
+	values: String
 });
 
-db.once('open', function() {
-  console.log('mongoose connected successfully');
-});
-
-var itemSchema = mongoose.Schema({
-  quantity: Number,
-  description: String
-});
-
-var Item = mongoose.model('Item', itemSchema);
+var Profile = mongoose.model('Profile', profileSchema, 'profiles');
 
 
 
-module.exports.selectAll = selectAll;
+module.exports.Profile = Profile;
+module.exports.db = db;

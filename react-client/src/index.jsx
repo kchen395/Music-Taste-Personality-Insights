@@ -8,24 +8,21 @@ class App extends React.Component {
     super(props);
     this.state = { 
 			songs: [],
-			profile: {}
+			profile: {},
+			urls: []
 		}
 		this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  componentDidMount() {
-	}
-	
+  }	
 
 	handleSubmit(e) {
 		e.preventDefault();
-		const {title, artist} = this.state;
-		axios.get('/lyrics', {title, artist})
+		axios.get('/lyrics')
 			.then((res) => {
-				console.log(res)
+				console.log('res')
 				this.setState({
 					songs: res.data[1],
-					profile: res.data[0]
+					profile: res.data[0],
+					urls: res.data[2]
 				})
 			});
 	}
@@ -61,11 +58,14 @@ class App extends React.Component {
 			<ol>
 			{this.state.songs.map((song, i) => {
 				return(
-					<li key={song.uri}><a href={song.external_urls.spotify} style={style}>{song.album.artists[0].name} - {song.name}</a></li>
+					<li key={song.uri}><a href={song.external_urls.spotify} style={style}>{song.album.artists[0].name} - {song.name}</a><a href={this.state.urls.filter(url => {
+						return url.toLowerCase().indexOf((song.album.artists[0].name.replace(/\s+/g, '-').toLowerCase())) > -1 
+						|| url.toLowerCase().indexOf((song.name.replace(/\s+/g, '-').toLowerCase())) > -1;
+					})[0]} style={style}> Lyrics</a></li>
 				)
 			})}
 			</ol>
-			<h1>Personality Insights</h1>
+			<h1>Personality Insights</h1> 
 
 			<h2>Preferences</h2>
 			{this.state.profile.consumption_preferences.map(prefCategory => {
@@ -80,7 +80,7 @@ class App extends React.Component {
 
 			<h2>Needs</h2>
 			{this.state.profile.needs.map(need => {
-				if (need.percentile > 0.85) {
+				if (need.percentile > 0.8) {
 					return (
 						<li key={need.trait_id}>{need.name}</li>
 					)
