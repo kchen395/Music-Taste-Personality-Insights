@@ -42,7 +42,7 @@ passport.use(
     {
       clientID: spotifyClient,
       clientSecret: spotifySecret,
-      callbackURL: 'http://localhost:3000/auth/spotify/callback'
+      callbackURL: 'https://music-taste-personality.herokuapp.com/auth/spotify/callback'
     },
     function(accessToken, refreshToken, expires_in, profile, done) {
 			spotifyToken = accessToken;
@@ -81,7 +81,7 @@ app.get('/auth/spotify', passport.authenticate('spotify', {
 	showDialog: true
 }));
 
-app.get('https://music-taste-personality.herokuapp.com/auth/spotify/callback',
+app.get('/auth/spotify/callback',
 	passport.authenticate('spotify', { failureRedirect: '/'}),
   function(req, res) {
     res.redirect('/');
