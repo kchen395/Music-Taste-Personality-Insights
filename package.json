@@ -10,10 +10,11 @@
     "heroku-postbuild": "webpack -p"
   },
   "author": "Hack Reactor",
-	"license": "ISC",
-	"engines": {"node" : "v8.11.3",
-		"npm" : "6.4.1"
-	},
+  "license": "ISC",
+  "engines": {
+    "node": "v8.11.3",
+    "npm": "6.4.1"
+  },
   "devDependencies": {
     "babel-core": "^6.23.1",
     "babel-loader": "^6.3.2",
@@ -27,6 +28,7 @@
     "@timheckel/parallel-dots": "^1.0.4",
     "axios": "^0.18.0",
     "body-parser": "^1.17.2",
+    "chart.js": "^2.7.3",
     "cheerio": "^1.0.0-rc.2",
     "connect-redis": "^3.4.0",
     "consolidate": "^0.15.1",
@@ -37,6 +39,7 @@
     "passport": "^0.4.0",
     "passport-spotify": "^1.0.1",
     "react": "^15.4.2",
+    "react-chartjs-2": "^2.7.4",
     "react-dom": "^15.4.2",
     "swig": "^1.4.2",
     "watson-developer-cloud": "^3.12.0"

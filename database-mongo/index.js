@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var mongoURL = process.env.MONGO;
+var mongoURL = process.env.MONGO || "mongodb://kai:kai123@ds137483.mlab.com:37483/lyrics-app";
 
 mongoose.connect(mongoURL, { useMongoClient: true });
 var db = mongoose.connection;
