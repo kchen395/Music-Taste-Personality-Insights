@@ -1,5 +1,6 @@
 var express = require('express');
 var session = require('express-session');
+var RedisStore = require('connect-redis')(session);
 var bodyParser = require('body-parser');
 
 const Profile = require('../database-mongo/index').Profile;
@@ -67,7 +68,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({
   secret: 'traderjoes',
   resave: true,
-  saveUninitialized: false
+	saveUninitialized: false,
+	store: new RedisStore()
 }));
 
 app.use(passport.initialize());
