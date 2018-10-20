@@ -35,3 +35,4 @@ bower_components/
 .floo
 .flooignore
 
+node_modules
