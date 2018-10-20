@@ -81,7 +81,7 @@ app.get('/auth/spotify', passport.authenticate('spotify', {
 	showDialog: true
 }));
 
-app.get('/auth/spotify/callback',
+app.get('https://music-taste-personality.herokuapp.com/auth/spotify/callback',
 	passport.authenticate('spotify', { failureRedirect: '/'}),
   function(req, res) {
     res.redirect('/');
