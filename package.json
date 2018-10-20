@@ -10,7 +10,10 @@
     "heroku-postbuild": "webpack -p"
   },
   "author": "Hack Reactor",
-  "license": "ISC",
+	"license": "ISC",
+	"engines": {"node" : "v8.11.3",
+		"npm" : "6.4.1"
+	},
   "devDependencies": {
     "babel-core": "^6.23.1",
     "babel-loader": "^6.3.2",
