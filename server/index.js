@@ -6,10 +6,10 @@ const Profile = require('../database-mongo/index').Profile;
 const db = require('../database-mongo/index').db;
 
 
-var geniusToken = require('../config.js').GENIUS_TOKEN;
-var spotifyClient = require('../config.js').SPOTIFY_CLIENT;
-var spotifySecret = require('../config.js').SPOTIFY_SECRET;
-var ibmKey = require('../config.js').IBM_KEY;
+var geniusToken = process.env.GENIUS_TOKEN;
+var spotifyClient = process.env.SPOTIFY_CLIENT;
+var spotifySecret = process.env.SPOTIFY_SECRET;
+var ibmKey = process.env.IBM_KEY;
 
 var Genius = require('genius-api');
 var cheerio = require('cheerio');
@@ -160,6 +160,6 @@ app.get('/lyrics', function(req, res) {
 	}			
 )
 
-app.listen(3000, function() {
+app.listen(process.env.port || 3000, function() {
   console.log('listening on port 3000!');
 });

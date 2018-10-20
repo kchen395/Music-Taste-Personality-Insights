@@ -37,7 +37,7 @@ class App extends React.Component {
 		if (!empty) {
 			return (
 				<div>
-					<h1>Music Taste Personality Test</h1>
+					<h1>Music Taste Personality Insights</h1>
 					<p>This app inputs the lyrics of your 20 current top songs from Spotify into IBM Watson's Personality Insights to determine your personality from music tastes</p>
 					<a href="/auth/spotify/">Login</a><br/><br/>
 					<form onSubmit={this.handleSubmit}>

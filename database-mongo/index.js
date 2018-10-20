@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var mongoURL = require('../config.js').MONGO;
+var mongoURL = process.env.MONGO;
 
 mongoose.connect(mongoURL, { useMongoClient: true });
 var db = mongoose.connection;
