@@ -164,7 +164,6 @@ app.get("/lyrics", function(req, res) {
               Promise.all(promises2).then(result => {
                 //Combine text into single string and send to IBM Watson API
 								let text = result.join("");
-								console.log(text)
                 let profileParams = {
                   content: text,
                   content_type: "text/plain",
