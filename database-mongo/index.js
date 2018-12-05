@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { MONGO } = require("../config.js");
+// const { MONGO } = require("../config.js");
 const mongoURL = process.env.MONGO || MONGO;
 
 mongoose.connect(
