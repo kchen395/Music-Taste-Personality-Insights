@@ -5,6 +5,8 @@ import Personality from "./components/personality.jsx";
 import { Radar } from "react-chartjs-2";
 import { Button, ListGroup, ListGroupItem } from "react-bootstrap";
 import SongList from "./components/songList.jsx";
+import Preferences from "./components/preferences.jsx";
+import Needs from "./components/needs.jsx";
 
 class App extends React.Component {
   constructor(props) {
@@ -108,31 +110,25 @@ class App extends React.Component {
           ]
         };
       }
-
-      const data = dataTemplate(this.state.profile.needs, "Needs");
-      const data1 = dataTemplate(
-        this.state.profile.personality[0].children,
-        "Openness"
-      );
-      const data2 = dataTemplate(
-        this.state.profile.personality[1].children,
-        "Conscientiousness"
-      );
-      const data3 = dataTemplate(
-        this.state.profile.personality[2].children,
-        "Extraversion"
-      );
-      const data4 = dataTemplate(
-        this.state.profile.personality[3].children,
-        "Agreeableness"
-      );
-      const data5 = dataTemplate(
-        this.state.profile.personality[4].children,
+      const pTypes = [
+        "Openness",
+        "Conscientiousness",
+        "Extraversion",
+        "Agreeableness",
         "Neuroticism"
-      );
-      const data6 = dataTemplate(this.state.profile.values, "Values");
-			
-			const options = {
+      ];
+      const nData = dataTemplate(this.state.profile.needs, "Needs");
+      const pObj = {};
+      for (var i = 0; i < 5; i++) {
+        pObj[i] = dataTemplate(
+          this.state.profile.personality[i].children,
+          pTypes[i]
+        );
+      }
+
+      const vData = dataTemplate(this.state.profile.values, "Values");
+
+      const options = {
         scale: {
           ticks: {
             display: false,
@@ -158,123 +154,28 @@ class App extends React.Component {
           <br />
           <h1>Top Songs</h1>
           <ol>
-						<SongList songs={this.state.songs} urls={this.state.urls}/>
-            {/* <ListGroup>
-              {this.state.songs.map((song, i) => {
-                return (
-                  <ListGroupItem key={song.uri}>
-                    <a href={song.external_urls.spotify} style={style}>
-                      {song.album.artists[0].name} - {song.name}
-                    </a>
-                    <a
-                      href={
-                        this.state.urls.filter(url => {
-                          return (
-                            url
-                              .toLowerCase()
-                              .indexOf(
-                                song.album.artists[0].name
-                                  .replace(/\s+/g, "-")
-                                  .toLowerCase()
-                              ) > -1 ||
-                            url
-                              .toLowerCase()
-                              .indexOf(
-                                song.name.replace(/\s+/g, "-").toLowerCase()
-                              ) > -1
-                          );
-                        })[0]
-                      }
-                      style={style}
-                    >
-                      {" "}
-                      Lyrics
-                    </a>
-                  </ListGroupItem>
-                );
-              })}
-            </ListGroup> */}
+            <SongList songs={this.state.songs} urls={this.state.urls} />
           </ol>
           <h1>Personality Insights</h1>
-
           <h2>Preferences</h2>
-          <ListGroup>
-            {this.state.profile.consumption_preferences.map(prefCategory => {
-              return prefCategory.consumption_preferences.map(pref => {
-                if (pref.score === 1) {
-                  return (
-                    <ListGroupItem key={pref.consumption_preference_id}>
-                      {pref.name}
-                    </ListGroupItem>
-                  );
-                }
-              });
-            })}
-          </ListGroup>
-
+          <Preferences prefs={this.state.profile.consumption_preferences} />
           <h2>Needs</h2>
-          <ListGroup>
-            {this.state.profile.needs.map(need => {
-              if (need.percentile > 0.8) {
-                return (
-                  <ListGroupItem
-                    style={{ fontWeight: "bold" }}
-                    key={need.trait_id}
-                  >
-                    {need.name} {need.percentile.toFixed(2)}
-                  </ListGroupItem>
-                );
-              } else if (need.percentile > 0.66) {
-                return (
-                  <ListGroupItem
-                    style={{ fontStyle: "italic" }}
-                    key={need.trait_id}
-                  >
-                    {need.name} {need.percentile.toFixed(2)}
-                  </ListGroupItem>
-                );
-              } else if (need.percentile < 0.33) {
-                return (
-                  <ListGroupItem key={need.trait_id} style={{ color: "red" }}>
-                    {need.name} {need.percentile.toFixed(2)}
-                  </ListGroupItem>
-                );
-              } else {
-                return (
-                  <ListGroupItem key={need.trait_id}>
-                    {need.name} {need.percentile.toFixed(2)}
-                  </ListGroupItem>
-                );
-              }
-            })}
-          </ListGroup>
-          <Radar data={data} options={options} style={chartStyle} />
+          <Needs needs={this.state.profile.needs} />
+          <Radar data={nData} options={options} style={chartStyle} />
 
           <h2>Big Five Personality</h2>
-          <h3>Openness Facets</h3>
-
-          <Personality facets={this.state.profile.personality[0].children} />
-          <Radar data={data1} options={options} style={chartStyle} />
-
-          <h3>Conscientiousness Facets</h3>
-          <Personality facets={this.state.profile.personality[1].children} />
-          <Radar data={data2} options={options} style={chartStyle} />
-
-          <h3>Extraversion Facets</h3>
-          <Personality facets={this.state.profile.personality[2].children} />
-          <Radar data={data3} options={options} style={chartStyle} />
-
-          <h3>Agreeableness Facets</h3>
-          <Personality facets={this.state.profile.personality[3].children} />
-          <Radar data={data4} options={options} style={chartStyle} />
-
-          <h3>Neuroticism Facets</h3>
-          <Personality facets={this.state.profile.personality[4].children} />
-          <Radar data={data5} options={options} style={chartStyle} />
-
+          {this.state.profile.personality.map((personality, i) => {
+            return (
+              <main key={i} className="bottom">
+                <h3>{pTypes[i]}</h3>
+                <Personality facets={personality.children} />
+                <Radar data={pObj[i]} options={options} style={chartStyle} />
+              </main>
+            );
+          })}
           <h2>Values</h2>
           <Personality facets={this.state.profile.values} />
-          <Radar data={data6} options={options} style={chartStyle} />
+          <Radar data={vData} options={options} style={chartStyle} />
         </div>
       );
     }

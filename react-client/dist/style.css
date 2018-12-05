@@ -3,6 +3,10 @@ h1 {
 }
 
 .full {
-	height: 100vh;
+	height: auto;
 	margin-bottom: 0px;
+}
+
+.bottom {
+	margin-bottom: 10px;
 }
