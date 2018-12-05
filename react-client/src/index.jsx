@@ -168,7 +168,7 @@ class App extends React.Component {
               <Tab>Preferences</Tab>
               <Tab>Needs</Tab>
               <Tab>Big Five Personality Traits</Tab>
-							<Tab>Values</Tab>
+              <Tab>Values</Tab>
             </TabList>
 
             <TabPanel>

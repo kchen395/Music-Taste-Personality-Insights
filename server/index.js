@@ -15,12 +15,12 @@ const SpotifyStrategy = require("passport-spotify").Strategy;
 const PersonalityInsightsV3 = require("watson-developer-cloud/personality-insights/v3");
 
 //For development only
-const {
-  GENIUS_TOKEN,
-  IBM_KEY,
-  SPOTIFY_CLIENT,
-  SPOTIFY_SECRET
-} = require("../config.js");
+// const {
+//   GENIUS_TOKEN,
+//   IBM_KEY,
+//   SPOTIFY_CLIENT,
+//   SPOTIFY_SECRET
+// } = require("../config.js");
 
 const geniusToken = process.env.GENIUS_TOKEN || GENIUS_TOKEN;
 const spotifyClient = process.env.SPOTIFY_CLIENT || SPOTIFY_CLIENT;
@@ -45,8 +45,9 @@ passport.use(
     {
       clientID: spotifyClient,
       clientSecret: spotifySecret,
-      // callbackURL: 'https://music-taste-personality.herokuapp.com/auth/spotify/callback'
-      callbackURL: "http://localhost:3000/auth/spotify/callback"
+			callbackURL: 'https://music-taste-personality.herokuapp.com/auth/spotify/callback'
+			// for development
+      // callbackURL: "http://localhost:3000/auth/spotify/callback"
     },
     function(accessToken, refreshToken, expires_in, profile, done) {
       spotifyToken = accessToken;
