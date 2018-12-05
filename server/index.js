@@ -5,12 +5,12 @@ var bodyParser = require('body-parser');
 
 const Profile = require('../database-mongo/index').Profile;
 const db = require('../database-mongo/index').db;
+const {GENIUS_TOKEN, IBM_KEY, SPOTIFY_CLIENT, SPOTIFY_SECRET} = require('../config.js')
 
-
-var geniusToken = process.env.GENIUS_TOKEN;
-var spotifyClient = process.env.SPOTIFY_CLIENT;
-var spotifySecret = process.env.SPOTIFY_SECRET;
-var ibmKey = process.env.IBM_KEY;
+var geniusToken = process.env.GENIUS_TOKEN || GENIUS_TOKEN;
+var spotifyClient = process.env.SPOTIFY_CLIENT || SPOTIFY_CLIENT;
+var spotifySecret = process.env.SPOTIFY_SECRET || SPOTIFY_SECRET;
+var ibmKey = process.env.IBM_KEY || IBM_KEY;
 
 var Genius = require('genius-api');
 var cheerio = require('cheerio');
@@ -42,7 +42,8 @@ passport.use(
     {
       clientID: spotifyClient,
       clientSecret: spotifySecret,
-      callbackURL: 'https://music-taste-personality.herokuapp.com/auth/spotify/callback'
+			// callbackURL: 'https://music-taste-personality.herokuapp.com/auth/spotify/callback'
+			callbackURL: "http://localhost:3000/auth/spotify/callback"
     },
     function(accessToken, refreshToken, expires_in, profile, done) {
 			spotifyToken = accessToken;
@@ -92,7 +93,6 @@ app.get('/lyrics', function(req, res) {
 	let donezo = false;
 	db.collection('profiles').find({id: id}).toArray((err, profile) => {
 		if (err) return console.log(err)
-		console.log(profile);
 		if (profile.length > 0) {
 			profile = profile[0];
 			res.status(200).send([JSON.parse(profile.personality), JSON.parse(profile.songs), JSON.parse(profile.values)]);

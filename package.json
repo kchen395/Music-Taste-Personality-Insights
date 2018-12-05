@@ -4,12 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "react-dev": "webpack -d --watch",
+		"start": "NODE_ENV=production node server/index.js",
+    "react-dev": "webpack --watch",
     "server-dev": "nodemon server/index.js",
-    "start": "NODE_ENV=production node server/index.js",
-    "heroku-postbuild": "webpack -p"
+		"heroku-postbuild": "webpack -p",
+		"build": "webpack"
   },
-  "author": "Hack Reactor",
+  "author": "Kai Chen",
   "license": "ISC",
   "engines": {
     "node": "v8.11.3",
