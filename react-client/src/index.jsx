@@ -3,10 +3,12 @@ import ReactDOM from "react-dom";
 import axios from "axios";
 import Personality from "./components/personality.jsx";
 import { Radar } from "react-chartjs-2";
-import { Button, ListGroup, ListGroupItem } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import SongList from "./components/songList.jsx";
 import Preferences from "./components/preferences.jsx";
 import Needs from "./components/needs.jsx";
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import "react-tabs/style/react-tabs.css";
 
 class App extends React.Component {
   constructor(props) {
@@ -60,6 +62,11 @@ class App extends React.Component {
           <div>
             <div>
               <h1>Music Taste Personality Insights</h1>
+              <p>
+                This app inputs the lyrics of your 20 current top songs from
+                Spotify into IBM Watson's Personality Insights to determine your
+                personality from your music taste
+              </p>
               <div style={loadStyle}>
                 <img
                   src="https://loading.io/spinners/ripple/lg.ripple-radio-preloader.gif"
@@ -110,6 +117,7 @@ class App extends React.Component {
           ]
         };
       }
+
       const pTypes = [
         "Openness",
         "Conscientiousness",
@@ -117,9 +125,11 @@ class App extends React.Component {
         "Agreeableness",
         "Neuroticism"
       ];
+
       const nData = dataTemplate(this.state.profile.needs, "Needs");
+
       const pObj = {};
-      for (var i = 0; i < 5; i++) {
+      for (let i = 0; i < 5; i++) {
         pObj[i] = dataTemplate(
           this.state.profile.personality[i].children,
           pTypes[i]
@@ -152,30 +162,52 @@ class App extends React.Component {
             <button type="submit">Retrieve Personality Profile</button>
           </form>
           <br />
-          <h1>Top Songs</h1>
-          <ol>
-            <SongList songs={this.state.songs} urls={this.state.urls} />
-          </ol>
-          <h1>Personality Insights</h1>
-          <h2>Preferences</h2>
-          <Preferences prefs={this.state.profile.consumption_preferences} />
-          <h2>Needs</h2>
-          <Needs needs={this.state.profile.needs} />
-          <Radar data={nData} options={options} style={chartStyle} />
+          <Tabs>
+            <TabList>
+              <Tab>Top Songs</Tab>
+              <Tab>Preferences</Tab>
+              <Tab>Needs</Tab>
+              <Tab>Big Five Personality Traits</Tab>
+							<Tab>Values</Tab>
+            </TabList>
 
-          <h2>Big Five Personality</h2>
-          {this.state.profile.personality.map((personality, i) => {
-            return (
-              <main key={i} className="bottom">
-                <h3>{pTypes[i]}</h3>
-                <Personality facets={personality.children} />
-                <Radar data={pObj[i]} options={options} style={chartStyle} />
-              </main>
-            );
-          })}
-          <h2>Values</h2>
-          <Personality facets={this.state.profile.values} />
-          <Radar data={vData} options={options} style={chartStyle} />
+            <TabPanel>
+              <h1>Top Songs</h1>
+              <ol>
+                <SongList songs={this.state.songs} urls={this.state.urls} />
+              </ol>
+            </TabPanel>
+            <TabPanel>
+              <h1>Preferences</h1>
+              <Preferences prefs={this.state.profile.consumption_preferences} />
+            </TabPanel>
+            <TabPanel>
+              <h1>Needs</h1>
+              <Needs needs={this.state.profile.needs} />
+              <Radar data={nData} options={options} style={chartStyle} />
+            </TabPanel>
+            <TabPanel>
+              <h1>Big Five Personality</h1>
+              {this.state.profile.personality.map((personality, i) => {
+                return (
+                  <main key={i} className="bottom">
+                    <h3>{pTypes[i]}</h3>
+                    <Personality facets={personality.children} />
+                    <Radar
+                      data={pObj[i]}
+                      options={options}
+                      style={chartStyle}
+                    />
+                  </main>
+                );
+              })}
+            </TabPanel>
+            <TabPanel>
+              <h1>Values</h1>
+              <Personality facets={this.state.profile.values} />
+              <Radar data={vData} options={options} style={chartStyle} />
+            </TabPanel>
+          </Tabs>
         </div>
       );
     }

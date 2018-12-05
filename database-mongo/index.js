@@ -1,22 +1,22 @@
-var mongoose = require("mongoose");
-var { MONGO } = require("../config.js");
-var mongoURL = process.env.MONGO || MONGO;
+const mongoose = require("mongoose");
+const { MONGO } = require("../config.js");
+const mongoURL = process.env.MONGO || MONGO;
 
 mongoose.connect(
   mongoURL,
   { useMongoClient: true }
 );
-var db = mongoose.connection;
+const db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
-var profileSchema = mongoose.Schema({
+const profileSchema = mongoose.Schema({
   id: String,
   personality: String,
   songs: String,
   values: String
 });
 
-var Profile = mongoose.model("Profile", profileSchema, "profiles");
+const Profile = mongoose.model("Profile", profileSchema, "profiles");
 
 module.exports.Profile = Profile;
 module.exports.db = db;
