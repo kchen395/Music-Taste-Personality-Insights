@@ -57,7 +57,7 @@ class App extends React.Component {
 
     if (this.state.loading) {
       return (
-        <main >
+        <main>
           <div>
             <div>
               <h1>Music Taste Personality Insights</h1>
@@ -212,7 +212,7 @@ class App extends React.Component {
           <a href="/auth/spotify/">Login</a>
           <br />
           <br />
-         <form onSubmit={this.handleSubmit}>
+          <form onSubmit={this.handleSubmit}>
             <button type="submit">Retrieve Personality Profile</button>
           </form>
           <br />
@@ -311,11 +311,11 @@ class App extends React.Component {
 
           <h2>Big Five Personality</h2>
           <h3>Openness Facets</h3>
-          
-					<Personality facets={this.state.profile.personality[0].children} />
+
+          <Personality facets={this.state.profile.personality[0].children} />
           <Radar data={data1} options={options} style={chartStyle} />
-          
-					<h3>Conscientiousness Facets</h3>
+
+          <h3>Conscientiousness Facets</h3>
           <Personality facets={this.state.profile.personality[1].children} />
           <Radar data={data2} options={options} style={chartStyle} />
 
