@@ -4,6 +4,7 @@ import axios from "axios";
 import Personality from "./components/personality.jsx";
 import { Radar } from "react-chartjs-2";
 import { Button, ListGroup, ListGroupItem } from "react-bootstrap";
+import SongList from "./components/songList.jsx";
 
 class App extends React.Component {
   constructor(props) {
@@ -31,10 +32,6 @@ class App extends React.Component {
   }
 
   render() {
-    const style = {
-      textDecoration: "none"
-    };
-
     const imgStyle = {
       textAlign: "center",
       width: "50%",
@@ -98,101 +95,44 @@ class App extends React.Component {
         </div>
       );
     } else {
-      const data = {
-        labels: this.state.profile.needs.map(val => val.name),
-        datasets: [
-          {
-            label: "Needs",
-            backgroundColor: "rgba(0,119,204,0.2)",
-            borderColor: "rgba(0,119,204, 0.5)",
-            data: this.state.profile.needs.map(val => val.percentile)
-          }
-        ]
-      };
+      function dataTemplate(category, name) {
+        return {
+          labels: category.map(val => val.name),
+          datasets: [
+            {
+              label: name,
+              backgroundColor: "rgba(0,119,204,0.2)",
+              borderColor: "rgba(0,119,204, 0.5)",
+              data: category.map(val => val.percentile)
+            }
+          ]
+        };
+      }
 
-      const data1 = {
-        labels: this.state.profile.personality[0].children.map(val => val.name),
-        datasets: [
-          {
-            label: "Openness",
-            backgroundColor: "rgba(0,119,204,0.2)",
-            borderColor: "rgba(0,119,204, 0.5)",
-            data: this.state.profile.personality[0].children.map(
-              val => val.percentile
-            )
-          }
-        ]
-      };
-
-      const data2 = {
-        labels: this.state.profile.personality[1].children.map(val => val.name),
-        datasets: [
-          {
-            label: "Conscientiousness",
-            backgroundColor: "rgba(0,119,204,0.2)",
-            borderColor: "rgba(0,119,204, 0.5)",
-            data: this.state.profile.personality[1].children.map(
-              val => val.percentile
-            )
-          }
-        ]
-      };
-
-      const data3 = {
-        labels: this.state.profile.personality[2].children.map(val => val.name),
-        datasets: [
-          {
-            label: "Extraversion",
-            backgroundColor: "rgba(0,119,204,0.2)",
-            borderColor: "rgba(0,119,204, 0.5)",
-            data: this.state.profile.personality[2].children.map(
-              val => val.percentile
-            )
-          }
-        ]
-      };
-
-      const data4 = {
-        labels: this.state.profile.personality[3].children.map(val => val.name),
-        datasets: [
-          {
-            label: "Agreeableness",
-            backgroundColor: "rgba(0,119,204,0.2)",
-            borderColor: "rgba(0,119,204, 0.5)",
-            data: this.state.profile.personality[3].children.map(
-              val => val.percentile
-            )
-          }
-        ]
-      };
-
-      const data5 = {
-        labels: this.state.profile.personality[4].children.map(val => val.name),
-        datasets: [
-          {
-            label: "Neuroticism",
-            backgroundColor: "rgba(0,119,204,0.2)",
-            borderColor: "rgba(0,119,204, 0.5)",
-            data: this.state.profile.personality[4].children.map(
-              val => val.percentile
-            )
-          }
-        ]
-      };
-
-      const data6 = {
-        labels: this.state.profile.values.map(val => val.name),
-        datasets: [
-          {
-            label: "Values",
-            backgroundColor: "rgba(0,119,204,0.2)",
-            borderColor: "rgba(0,119,204, 0.5)",
-            data: this.state.profile.values.map(val => val.percentile)
-          }
-        ]
-      };
-
-      const options = {
+      const data = dataTemplate(this.state.profile.needs, "Needs");
+      const data1 = dataTemplate(
+        this.state.profile.personality[0].children,
+        "Openness"
+      );
+      const data2 = dataTemplate(
+        this.state.profile.personality[1].children,
+        "Conscientiousness"
+      );
+      const data3 = dataTemplate(
+        this.state.profile.personality[2].children,
+        "Extraversion"
+      );
+      const data4 = dataTemplate(
+        this.state.profile.personality[3].children,
+        "Agreeableness"
+      );
+      const data5 = dataTemplate(
+        this.state.profile.personality[4].children,
+        "Neuroticism"
+      );
+      const data6 = dataTemplate(this.state.profile.values, "Values");
+			
+			const options = {
         scale: {
           ticks: {
             display: false,
@@ -209,7 +149,7 @@ class App extends React.Component {
             into IBM Watson's Personality Insights to determine your personality
             from your music taste
           </p>
-          <a href="/auth/spotify/">Login</a>
+          <a href="/auth/spotify/">Login to your Spotify Account</a>
           <br />
           <br />
           <form onSubmit={this.handleSubmit}>
@@ -218,7 +158,8 @@ class App extends React.Component {
           <br />
           <h1>Top Songs</h1>
           <ol>
-            <ListGroup>
+						<SongList songs={this.state.songs} urls={this.state.urls}/>
+            {/* <ListGroup>
               {this.state.songs.map((song, i) => {
                 return (
                   <ListGroupItem key={song.uri}>
@@ -252,7 +193,7 @@ class App extends React.Component {
                   </ListGroupItem>
                 );
               })}
-            </ListGroup>
+            </ListGroup> */}
           </ol>
           <h1>Personality Insights</h1>
 

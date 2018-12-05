@@ -40776,11 +40776,12 @@ var _reactBootstrap = __webpack_require__(149);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var Personality = function Personality(props) {
+var Personality = function Personality(_ref) {
+	var facets = _ref.facets;
 	return _react2.default.createElement(
 		_reactBootstrap.ListGroup,
 		null,
-		props.facets.map(function (facet) {
+		facets.map(function (facet) {
 			if (facet.percentile > 0.8) {
 				return _react2.default.createElement(
 					_reactBootstrap.ListGroupItem,
@@ -43013,6 +43014,10 @@ var _reactChartjs = __webpack_require__(381);
 
 var _reactBootstrap = __webpack_require__(149);
 
+var _songList = __webpack_require__(791);
+
+var _songList2 = _interopRequireDefault(_songList);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -43058,12 +43063,6 @@ var App = function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
-
-      var style = {
-        textDecoration: "none"
-      };
-
       var imgStyle = {
         textAlign: "center",
         width: "50%",
@@ -43151,103 +43150,29 @@ var App = function (_React$Component) {
           })
         );
       } else {
-        var data = {
-          labels: this.state.profile.needs.map(function (val) {
-            return val.name;
-          }),
-          datasets: [{
-            label: "Needs",
-            backgroundColor: "rgba(0,119,204,0.2)",
-            borderColor: "rgba(0,119,204, 0.5)",
-            data: this.state.profile.needs.map(function (val) {
-              return val.percentile;
-            })
-          }]
+        var dataTemplate = function dataTemplate(category, name) {
+          return {
+            labels: category.map(function (val) {
+              return val.name;
+            }),
+            datasets: [{
+              label: name,
+              backgroundColor: "rgba(0,119,204,0.2)",
+              borderColor: "rgba(0,119,204, 0.5)",
+              data: category.map(function (val) {
+                return val.percentile;
+              })
+            }]
+          };
         };
 
-        var data1 = {
-          labels: this.state.profile.personality[0].children.map(function (val) {
-            return val.name;
-          }),
-          datasets: [{
-            label: "Openness",
-            backgroundColor: "rgba(0,119,204,0.2)",
-            borderColor: "rgba(0,119,204, 0.5)",
-            data: this.state.profile.personality[0].children.map(function (val) {
-              return val.percentile;
-            })
-          }]
-        };
-
-        var data2 = {
-          labels: this.state.profile.personality[1].children.map(function (val) {
-            return val.name;
-          }),
-          datasets: [{
-            label: "Conscientiousness",
-            backgroundColor: "rgba(0,119,204,0.2)",
-            borderColor: "rgba(0,119,204, 0.5)",
-            data: this.state.profile.personality[1].children.map(function (val) {
-              return val.percentile;
-            })
-          }]
-        };
-
-        var data3 = {
-          labels: this.state.profile.personality[2].children.map(function (val) {
-            return val.name;
-          }),
-          datasets: [{
-            label: "Extraversion",
-            backgroundColor: "rgba(0,119,204,0.2)",
-            borderColor: "rgba(0,119,204, 0.5)",
-            data: this.state.profile.personality[2].children.map(function (val) {
-              return val.percentile;
-            })
-          }]
-        };
-
-        var data4 = {
-          labels: this.state.profile.personality[3].children.map(function (val) {
-            return val.name;
-          }),
-          datasets: [{
-            label: "Agreeableness",
-            backgroundColor: "rgba(0,119,204,0.2)",
-            borderColor: "rgba(0,119,204, 0.5)",
-            data: this.state.profile.personality[3].children.map(function (val) {
-              return val.percentile;
-            })
-          }]
-        };
-
-        var data5 = {
-          labels: this.state.profile.personality[4].children.map(function (val) {
-            return val.name;
-          }),
-          datasets: [{
-            label: "Neuroticism",
-            backgroundColor: "rgba(0,119,204,0.2)",
-            borderColor: "rgba(0,119,204, 0.5)",
-            data: this.state.profile.personality[4].children.map(function (val) {
-              return val.percentile;
-            })
-          }]
-        };
-
-        var data6 = {
-          labels: this.state.profile.values.map(function (val) {
-            return val.name;
-          }),
-          datasets: [{
-            label: "Values",
-            backgroundColor: "rgba(0,119,204,0.2)",
-            borderColor: "rgba(0,119,204, 0.5)",
-            data: this.state.profile.values.map(function (val) {
-              return val.percentile;
-            })
-          }]
-        };
+        var data = dataTemplate(this.state.profile.needs, "Needs");
+        var data1 = dataTemplate(this.state.profile.personality[0].children, "Openness");
+        var data2 = dataTemplate(this.state.profile.personality[1].children, "Conscientiousness");
+        var data3 = dataTemplate(this.state.profile.personality[2].children, "Extraversion");
+        var data4 = dataTemplate(this.state.profile.personality[3].children, "Agreeableness");
+        var data5 = dataTemplate(this.state.profile.personality[4].children, "Neuroticism");
+        var data6 = dataTemplate(this.state.profile.values, "Values");
 
         var options = {
           scale: {
@@ -43274,7 +43199,7 @@ var App = function (_React$Component) {
           _react2.default.createElement(
             "a",
             { href: "/auth/spotify/" },
-            "Login"
+            "Login to your Spotify Account"
           ),
           _react2.default.createElement("br", null),
           _react2.default.createElement("br", null),
@@ -43296,34 +43221,7 @@ var App = function (_React$Component) {
           _react2.default.createElement(
             "ol",
             null,
-            _react2.default.createElement(
-              _reactBootstrap.ListGroup,
-              null,
-              this.state.songs.map(function (song, i) {
-                return _react2.default.createElement(
-                  _reactBootstrap.ListGroupItem,
-                  { key: song.uri },
-                  _react2.default.createElement(
-                    "a",
-                    { href: song.external_urls.spotify, style: style },
-                    song.album.artists[0].name,
-                    " - ",
-                    song.name
-                  ),
-                  _react2.default.createElement(
-                    "a",
-                    {
-                      href: _this3.state.urls.filter(function (url) {
-                        return url.toLowerCase().indexOf(song.album.artists[0].name.replace(/\s+/g, "-").toLowerCase()) > -1 || url.toLowerCase().indexOf(song.name.replace(/\s+/g, "-").toLowerCase()) > -1;
-                      })[0],
-                      style: style
-                    },
-                    " ",
-                    "Lyrics"
-                  )
-                );
-              })
-            )
+            _react2.default.createElement(_songList2.default, { songs: this.state.songs, urls: this.state.urls })
           ),
           _react2.default.createElement(
             "h1",
@@ -79014,6 +78912,63 @@ try {
 
 module.exports = g;
 
+
+/***/ }),
+/* 791 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactBootstrap = __webpack_require__(149);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var SongList = function SongList(_ref) {
+  var songs = _ref.songs,
+      urls = _ref.urls;
+  return _react2.default.createElement(
+    _reactBootstrap.ListGroup,
+    null,
+    songs.map(function (song) {
+      return _react2.default.createElement(
+        _reactBootstrap.ListGroupItem,
+        { key: song.uri },
+        _react2.default.createElement(
+          "a",
+          {
+            href: song.external_urls.spotify,
+            style: { textDecoration: "none" }
+          },
+          song.album.artists[0].name,
+          " - ",
+          song.name
+        ),
+        _react2.default.createElement(
+          "a",
+          {
+            href: urls.filter(function (url) {
+              return url.toLowerCase().indexOf(song.album.artists[0].name.replace(/\s+/g, "-").toLowerCase()) > -1 || url.toLowerCase().indexOf(song.name.replace(/\s+/g, "-").toLowerCase()) > -1;
+            })[0],
+            style: { textDecoration: "none", float: "right" }
+          },
+          " ",
+          "Lyrics"
+        )
+      );
+    })
+  );
+};
+
+exports.default = SongList;
 
 /***/ })
 /******/ ]);

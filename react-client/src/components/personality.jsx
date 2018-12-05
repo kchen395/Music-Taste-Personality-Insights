@@ -2,9 +2,9 @@ import React from 'react';
 import { ListGroup, ListGroupItem} from 'react-bootstrap';
 
 
-const Personality = (props) => (
+const Personality = ({facets}) => (
 	<ListGroup>
-		{props.facets.map(facet => {
+		{facets.map(facet => {
 			if (facet.percentile > 0.8) {
 				return (
 					<ListGroupItem style={{fontWeight: 'bold'}} key={facet.trait_id}>{facet.name} {facet.percentile.toFixed(2)}</ListGroupItem>
