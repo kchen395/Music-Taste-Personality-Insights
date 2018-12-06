@@ -1,5 +1,5 @@
-# Music-Taste-Personality-Insights
-A personality analyzer app that takes its insights from a user’s most listened Spotify songs with IBM Watson
+# Music Taste Personality Insights
+A personality analyzer app that takes its insights from a user’s most listened Spotify songs with IBM Watson.
 
 ### Installing Dependencies
 
