@@ -21,7 +21,7 @@ module.exports = {
 	SPOTIFY_CLIENT: 'spotify_client_token',
 	SPOTIFY_SECRET: 'spotify_secret',
 	IBM_KEY: 'ibm_watson_personality_insights_key',
-	MONGO: 'mongodb_server_link'
+	MONGO: 'mongodb_database_link'
 };
 ```
 
