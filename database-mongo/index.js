@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+// for development only
 // const { MONGO } = require("../config.js");
 const mongoURL = process.env.MONGO || MONGO;
 

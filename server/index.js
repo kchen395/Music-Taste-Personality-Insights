@@ -45,8 +45,9 @@ passport.use(
     {
       clientID: spotifyClient,
       clientSecret: spotifySecret,
-			callbackURL: 'https://music-taste-personality.herokuapp.com/auth/spotify/callback'
-			// for development
+      callbackURL:
+        "https://music-taste-personality.herokuapp.com/auth/spotify/callback"
+      // for development
       // callbackURL: "http://localhost:3000/auth/spotify/callback"
     },
     function(accessToken, refreshToken, expires_in, profile, done) {
@@ -62,11 +63,6 @@ const personalityInsights = new PersonalityInsightsV3({
   iam_apikey: ibmKey,
   url: "https://gateway-wdc.watsonplatform.net/personality-insights/api"
 });
-
-
-
-
-
 
 const app = express();
 
@@ -119,9 +115,9 @@ app.get("/lyrics", function(req, res) {
       if (err) return console.log(err);
       if (profile.length > 0) {
         profile = profile[0];
-				id = null;
-				spotifyToken = null;
-				//send back to client if it is in cache
+        id = null;
+        spotifyToken = null;
+        //send back to client if it is in cache
         res
           .status(200)
           .send([
@@ -170,7 +166,7 @@ app.get("/lyrics", function(req, res) {
               const promises2 = values.map(url => helper2(url));
               Promise.all(promises2).then(result => {
                 //Combine text into single string and send to IBM Watson API
-								let text = result.join("");
+                let text = result.join("");
                 let profileParams = {
                   content: text,
                   content_type: "text/plain",
@@ -199,10 +195,10 @@ app.get("/lyrics", function(req, res) {
                       },
                       { upsert: true }
                     ).then(() => {
-											id = null;
-											spotifyToken = null;
-											res.status(200).send([personality, songs, values])
-										});
+                      id = null;
+                      spotifyToken = null;
+                      res.status(200).send([personality, songs, values]);
+                    });
                   }
                 });
               });
