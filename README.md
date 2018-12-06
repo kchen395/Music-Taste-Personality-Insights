@@ -14,14 +14,14 @@ In ./server/index.js, uncomment code under for development only
 
 In ./database-mongo.js, uncomment code under for development only
 
-Create config.js file and save postgreSQL password in this format
+Create config.js file and save API tokens and MongoDB URL in this format
 ```js
 module.exports = {
 	GENIUS_TOKEN: 'genius_api_token',
 	SPOTIFY_CLIENT: 'spotify_client_token',
 	SPOTIFY_SECRET: 'spotify_secret',
 	IBM_KEY: 'ibm_watson_personality_insights_key',
-	MONGO: 'mongodb_database_link'
+	MONGO: 'mongodb_database_url'
 };
 ```
 
