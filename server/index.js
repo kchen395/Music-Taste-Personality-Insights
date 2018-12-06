@@ -63,6 +63,11 @@ const personalityInsights = new PersonalityInsightsV3({
   url: "https://gateway-wdc.watsonplatform.net/personality-insights/api"
 });
 
+
+
+
+
+
 const app = express();
 
 app.all("/*", function(req, res, next) {
@@ -114,7 +119,9 @@ app.get("/lyrics", function(req, res) {
       if (err) return console.log(err);
       if (profile.length > 0) {
         profile = profile[0];
-        //send back to client if it is in cache
+				id = null;
+				spotifyToken = null;
+				//send back to client if it is in cache
         res
           .status(200)
           .send([
@@ -191,7 +198,11 @@ app.get("/lyrics", function(req, res) {
                         }
                       },
                       { upsert: true }
-                    ).then(res.status(200).send([personality, songs, values]));
+                    ).then(() => {
+											id = null;
+											spotifyToken = null;
+											res.status(200).send([personality, songs, values])
+										});
                   }
                 });
               });
