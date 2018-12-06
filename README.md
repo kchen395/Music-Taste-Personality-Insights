@@ -11,6 +11,7 @@ npm install
 
 ## Development
 In ./server/index.js, uncomment code under for development only
+
 In ./database-mongo.js, uncomment code under for development only
 
 Create config.js file and save postgreSQL password in this format
