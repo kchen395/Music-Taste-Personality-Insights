@@ -10,9 +10,9 @@ npm install
 ```
 
 ## Development
-In ./server/index.js, uncomment code under for development only
+In ./server/index.js, uncomment code under "for development only"
 
-In ./database-mongo.js, uncomment code under for development only
+In ./database-mongo.js, uncomment code under "for development only"
 
 Create config.js file and save API tokens and MongoDB URL in this format
 ```js
